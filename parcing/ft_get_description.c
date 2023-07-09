@@ -6,7 +6,7 @@
 /*   By: mel-garr <mel-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 03:16:13 by mel-garr          #+#    #+#             */
-/*   Updated: 2023/07/09 03:50:50 by mel-garr         ###   ########.fr       */
+/*   Updated: 2023/07/09 19:59:23 by mel-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,98 +163,167 @@ void    what_kind_of_fill(t_data *data, char **str)
 //check if the path exist and can work with it
 //check if F/C are 3 and play between 0/255
 
+void    get_len_wei_map(t_mapp *map, int i)
+{
+    int j;
+    
+    while (map->map1[i])
+    {
+        if (map->longer_line < ft_strlen(map->map1[i]))
+            map->longer_line = ft_strlen(map->map1[i]);
+        map->line_nbr++;
+        i++;
+    }
+    if (map->line_nbr <= 2 || map->longer_line <= 2)
+        return (ft_print_fd(2, "error\n"), exit (19));
+    map->map2 = (char **)malloc(sizeof(char *) * (map->line_nbr + 1));
+    if (!map->map2)
+        return (ft_print_fd(2, "error\n"), exit (19));
+    printf ("---%d\n------%d\n", map->longer_line, map->line_nbr);
+    j = 0;
+    while (j <= map->line_nbr)
+    {
+        map->map2[j] = (char *)malloc(sizeof(char) * (map->longer_line +1));
+        if (!map->map2[j])
+            return (ft_print_fd(2, "error\n"), exit (19));
+        j++;
+    }
+}
+int   fill_second_map(t_mapp *map, int i)
+{
+    int j;
+    int k;
+
+    j = 0;
+    k = 0;
+    while (map->map1[i])
+    {
+        k = 0;
+        while (map->map1[i][k])
+        {
+            map->map2[j][k] = map->map1[i][k];
+            k++;
+        }
+        while (k < map->longer_line)
+        {
+            map->map2[j][k] = ' ';
+            k++;
+        }
+        map->map2[j][k] = '\0';
+        i++;
+        j++;
+    }
+    map->map2[j] = 0;
+  return (i);
+}
+
+int go_creat_map(t_data *data, int i)
+{
+    t_mapp *mapa;
 
 
-void    fill_tabs(t_mapp *map, char *str)
+    mapa = data->map;
+    get_len_wei_map(mapa, i);
+    return (fill_second_map(mapa, i) - 1);
+}
+
+void    fill_tabs(t_data *data, char *str)
 {
     int fd;
     int i;
-    
+    t_mapp *mapa;
     i = 0;
-    map->biglen = ft_gnl_size(str);
-    map->map1 = (char **)malloc(sizeof(char *) * (data->biglen + 1));
-    if (!map->map1)
+    mapa = data->map;
+
+    mapa->biglen = ft_gnl_size(str);
+    mapa->map1 = (char **)malloc(sizeof(char *) * (mapa->biglen + 1));
+    if (!mapa->map1)
         return (ft_print_fd(2, "cant allocat for map1\n"), exit(6));
     fd = open(str, O_RDONLY);
     while(1)
     {
-        map->map1[i] = get_next_line(fd);
-        map->map1[i] = ft_strtrim(data->map->map1[i], "\n");
-        if (map->map1[i] == NULL)
+        mapa->map1[i] = get_next_line(fd);
+        mapa->map1[i] = ft_strtrim(mapa->map1[i], "\n");
+        if (mapa->map1[i] == NULL)
             break;
         i++;   
     }
-    map->map1[i] = NULL;
+    mapa->map1[i] = NULL;
     close (fd);
 }
 
-char *is_the_texture_valid(char *str)
+void    is_the_texture_valid(char *str)
 {
     int len;
-
+    char buff[1];
+    int fd;
+    
     len = ft_strlen(str) - 1;
     if (len <= 4)
-        return (ft_print_fd(2 ,str), ft_print_fd(2, " texture too short\n"), 2, exit(21));
+        return (ft_print_fd(2 ,str), ft_print_fd(2, " texture too short\n"), exit(21));
     if (str[len] != 'm' || str[len - 1] != 'p' || str[len - 2] != 'x' || str[len - 3] != '.')
-        return (ft_print_fd(2, str), ft_print_fd(2, ": invalide textute \n"), exit(20), 2);
-    //open file with mlx content
-    
-}
-
-char *get_and_check_texture(char *str, int j)
-{
-    int start;
-    char *ret;
-    int fd;
-
+        return (ft_print_fd(2, str), ft_print_fd(2, ": invalide textute \n"), exit(20));
     fd = open(str, O_RDONLY);
     if (fd == -1)
         return (ft_print_fd(2, "can't open/find your .xpm map\n"), (void)close(fd), exit(25));
     if (read(fd, buff, 1) == -1)
         return (ft_print_fd(2, "your file xpm is a directory ? \n"), (void)close(fd), exit(26));
     close (fd);
+    //open file with mlx content
+}
+
+char *get_and_check_texture(char *str, int j)
+{
+    int start;
+    char *ret;
+
     if (str[j] == '\0')
-        return (fd_print_fd(2, "empty var"), (void)write(2, &str[j - 2], 1), (void)write(2, &str[j - 1], 1), (void)write(2, "\n", 1), 2, exit(18));
-    while (str[j] && ((str[j] == ' ') && (str[j] == '\t')))
+        return (ft_print_fd(2, "empty var"), (void)write(2, &str[j - 2], 1), (void)write(2, &str[j - 1], 1), (void)write(2, "\n", 1), exit(18), NULL);
+    while (str[j] && ((str[j] == ' ') || (str[j] == '\t')))
         j++;
     if (str[j] != 0)
         start = j;
-    while (str[j] && str[j] != ' ' && str[j] != '\t')
+    while (str[j] && (str[j] != ' ' && str[j] != '\t'))
         j++;
+
     if (str[j])
-        return (fd_print_fd(2, "invalid var\n"), exit(19), 2);
+        return (ft_print_fd(2, "invalid var\n"), exit(19), NULL);
     ret = ft_substr(str, start, j - start + 1);
     is_the_texture_valid(ret);
     return (ret);
 }
 
-int ft_count_colors(char *str, int j)
+unsigned long counting(char **str)
 {
-    while (str[j])
+    int count;
+    int tab[3];
+
+    count = 0;
+    while (str[count])
     {
-        while (str[j] && str[j] != ',')
-            j++;
-        if (str[j] == ',')
-            count++;
+        if (count > 2)
+            return (ft_print_fd(2, "pb\n"), exit(30), 1337);
+        if (!ft_is_alpha(str[count]))
+            return (ft_print_fd(2, "pb\n"), exit(31), 1337);
+        tab[count] = ft_atoi(str[count]);
+        if (tab[count] < 0 || tab[count] > 255)
+            return (ft_print_fd(2, "pb\n"), exit(32), 1337);
+        count++;
     }
-    if (count != 2)
-        return (ft_print_fd(2 , "wrong in the nbr of data in rgb vars\n"), 1337, exit(24));
+    if (count != 3)
+        return (ft_print_fd(2 , "wrong in the nbr of data in rgb vars\n"), exit(24), 1337);
+    return (((tab[0] << 16) | (tab[1] << 8) | tab[2]));
 }
-char *get_and_handle_clr(char *str, j)
+unsigned long get_and_handle_clr(char *str, int j)
 {
-    int start;
-    int i;
     char **clrs;
     
-    i = 0;
-    clrs = (char **)malloc(sizeof (char *) * 3);
-    if (clrs)
-        return (ft_print_fd(2, "can't allocat\n"), NULL, exit(23));
-    if (str[j] == 0 || str[j + 1] == 0)
-        return (ft_print_fd(2, "empty color var"), NULL, exit(22));
-    ft_count_virgul(str , j);
-    clrs = ft_split(str , ",");
-    
+    if (str[j] != ' ')
+        return (ft_print_fd(2, "error\n"), exit(16), 16);
+    clrs = ft_split(str + j, ',');
+    if (!clrs)
+        return (exit(99), 1337);
+    return (counting(clrs));
 }
 
 int ft_place_data(t_data *data, int i, int j)
@@ -265,18 +334,18 @@ int ft_place_data(t_data *data, int i, int j)
 
     if (str[j] == '\0')
         return (i);
-    else if (str[j] == 'S' && str[j + 1] == 'O' && str[j + 0] == ' ' && !(data->map->SO_str))
+    else if (str[j] == 'S' && str[j + 1] == 'O' && str[j + 2] == ' ' && !(data->map->SO_str))
         data->map->SO_str = get_and_check_texture(str, j + 2);
-    else if (str[j] == 'W' && str[j + 1] == 'E' && str[j + 0] == ' ' && !(data->map->WE_str))
+    else if (str[j] == 'W' && str[j + 1] == 'E' && str[j + 2] == ' ' && !(data->map->WE_str))
         data->map->WE_str = get_and_check_texture(str, j + 2);
-    else if (str[j] == 'E' && str[j + 1] == 'A' && str[j + 0] == ' ' && !(data->map->EA_str))
+    else if (str[j] == 'E' && str[j + 1] == 'A' && str[j + 2] == ' ' && !(data->map->EA_str))
         data->map->EA_str = get_and_check_texture(str, j + 2);
-    else if (str[j] == 'N' && str[j + 1] == 'O' && str[j + 0] == ' ' && !(data->map->NO_str))
+    else if (str[j] == 'N' && str[j + 1] == 'O' && str[j + 2] == ' ' && !(data->map->NO_str))
         data->map->NO_str = get_and_check_texture(str, j + 2);
-    else if (str[j] == 'C' && str[j + 1] == ' ' && (!data->map->C_str))
-        data->map->C_rbg = get_and_handle_clr(str, j + 1);
-    else if (str[j] == 'F' && str[j + 1] == ' ' && (!data->map->F_str))
-        data->map->F_rbg = get_and_handle_clr(str, j + 1);
+    else if (str[j] == 'C' && str[j + 1] == ' ' && (!data->map->C_rgb))
+        data->map->C_rgb = get_and_handle_clr(str, j + 1);
+    else if (str[j] == 'F' && str[j + 1] == ' ' && (!data->map->F_rgb))
+        data->map->F_rgb = get_and_handle_clr(str, j + 1);
     else if (str[j] == '1' || str[j] == '0')
         return (go_creat_map(data, i));
     else
@@ -293,9 +362,9 @@ void    fill_description(t_data *data)
     while (data->map->map1[i])
     {
         j = 0;
-        while (ft_isspace(data->map->map1[i][j]))
+        while (ft_is_space(data->map->map1[i][j]))
             j++;
-        if (ft_strchr(data->map->map1[i][j], "SWENFC01"))
+        if (ft_strchr( "SWENFC01" , data->map->map1[i][j]))
             i = ft_place_data(data, i, j);
         else if (data->map->map1[i][j] == 0)
             continue;
@@ -307,8 +376,8 @@ void    fill_description(t_data *data)
 
 void    ft_get_description(t_data *data, char *str)
 {
-    int i;
-    
-    fill_tabs(data->map, str);
+
+    fill_tabs(data, str);
     fill_description(data);
+    //parsing_tab_two(data);
 }

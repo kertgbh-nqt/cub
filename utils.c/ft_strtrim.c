@@ -6,7 +6,7 @@
 /*   By: mel-garr <mel-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 22:45:05 by mel-garr          #+#    #+#             */
-/*   Updated: 2023/07/07 22:51:11 by mel-garr         ###   ########.fr       */
+/*   Updated: 2023/07/09 16:32:35 by mel-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ char	*ft_strdup(char *s1)
 	return (str);
 }
 
-char	*ft_substr(char	*s, unsigned int start, size_t len)
+char	*ft_substr(char	*s,  int start, int len)
 {
-	unsigned int	i;
+	int	i;
 	char			*new;
 
 	i = 0;

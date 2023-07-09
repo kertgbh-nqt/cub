@@ -1,29 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   dup_map1.c                                         :+:      :+:    :+:   */
+/*   ft_is_alpha.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mel-garr <mel-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/07 21:56:15 by mel-garr          #+#    #+#             */
-/*   Updated: 2023/07/09 14:48:11 by mel-garr         ###   ########.fr       */
+/*   Created: 2023/07/09 15:21:33 by mel-garr          #+#    #+#             */
+/*   Updated: 2023/07/09 16:30:53 by mel-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cube3d.h"
 
-/*void    dup_map1(t_data *data, int len)
+int is_alpha(char c)
+{
+    if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
+        return (1);
+    return (0);
+}
+
+int ft_is_alpha(char *str)
 {
     int i;
 
     i = 0;
-    data->map2 = (char **)malloc((len + 1) * sizeof(char *));
-    if (!data->map2)
-        return (ft_print_fd(2, "couldnt allcoate for map2\n"), exit (7));
-    while (data->map1[i])
+    while (str[i])
     {
-        data->map2[i] = data->map1[i];
+        if (is_alpha(str[i]))
+            return(0);
         i++;
     }
-    data->map2[i] = NULL;
-}*/
+    return (1);
+}

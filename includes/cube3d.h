@@ -6,7 +6,7 @@
 /*   By: mel-garr <mel-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 02:22:32 by mel-garr          #+#    #+#             */
-/*   Updated: 2023/07/09 03:50:19 by mel-garr         ###   ########.fr       */
+/*   Updated: 2023/07/09 18:01:48 by mel-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,11 @@ typedef struct s_mapp
     //char *C_str;
     int biglen;
     char **map1;
-    int *F_rgb;
-    int *C_rgb;
+    char **map2;
+    unsigned long F_rgb;
+    unsigned long C_rgb;
+    int longer_line;
+    int line_nbr;
 }t_mapp;
 
 typedef struct s_data
@@ -63,6 +66,11 @@ void    dup_map1(t_data *data, int len);
 char	*ft_strtrim(char *s1, char *set);
 int	ft_strncmp(char *s1, char *s2, int n);
 char	*ft_strdup(char *s1);
+int ft_is_alpha(char *str);
+int	ft_atoi(char *str);
+char	*ft_substr(char	*s,  int start, int len);
+char	**ft_split(char *s, char c);
+char	*ft_strchr( char *s, int c);
 
 //get_next_line
 char	*gnl_stock(char *str);

@@ -6,7 +6,7 @@
 /*   By: mel-garr <mel-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 02:23:30 by mel-garr          #+#    #+#             */
-/*   Updated: 2023/07/08 22:17:45 by mel-garr         ###   ########.fr       */
+/*   Updated: 2023/07/09 18:12:27 by mel-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,21 @@ void    init_map(t_mapp *map)
     map->WE_str = NULL;
     map->NO_str = NULL;
     map->EA_str = NULL;
-    map->C_str = NULL;
-    map->F_str = NULL;
+    map->C_rgb = 0;
+    map->F_rgb = 0;
+    map->longer_line = 0;
+    map->line_nbr = 0;
 }
 
-void    init_struct(t_data *data)
+void    init_struct(t_data **data)
 {
-    data = malloc(sizeof(t_data));
-    data->map = malloc(sizeof(t_mapp));
-   init_map(data->map);
+    *data = malloc(sizeof(t_data));
+    if (!(*data))
+        printf ("error");
+    (*data)->map = malloc(sizeof(t_mapp));
+     if (!(*data)->map)
+        printf ("error");
+   init_map((*data)->map);
    
 }
 
@@ -36,13 +42,13 @@ int main(int ac, char **av)
     //more than one parametre go back
     if (ac == 2)
     {
-       
+       data = NULL;
         //need to initialise it with NULL
-        init_struct(data);
+        init_struct(&data);
         //check name
         ft_check_name(av[1]);
         //while for content before map
-        ft_get_description(&data, av[1]);
+        ft_get_description(data, av[1]);
         //resize map / srocked /check ressources
         //check if around are 1
     }
