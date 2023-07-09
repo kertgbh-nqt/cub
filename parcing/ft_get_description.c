@@ -6,7 +6,7 @@
 /*   By: mel-garr <mel-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 03:16:13 by mel-garr          #+#    #+#             */
-/*   Updated: 2023/07/09 19:59:23 by mel-garr         ###   ########.fr       */
+/*   Updated: 2023/07/09 22:27:51 by mel-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,7 +179,6 @@ void    get_len_wei_map(t_mapp *map, int i)
     map->map2 = (char **)malloc(sizeof(char *) * (map->line_nbr + 1));
     if (!map->map2)
         return (ft_print_fd(2, "error\n"), exit (19));
-    printf ("---%d\n------%d\n", map->longer_line, map->line_nbr);
     j = 0;
     while (j <= map->line_nbr)
     {
@@ -214,6 +213,12 @@ int   fill_second_map(t_mapp *map, int i)
         j++;
     }
     map->map2[j] = 0;
+    j = 0;
+    while (map->map2[j])
+    {
+        printf ("%s\n", map->map2[j]);
+        j++;
+    }
   return (i);
 }
 
@@ -221,7 +226,7 @@ int go_creat_map(t_data *data, int i)
 {
     t_mapp *mapa;
 
-
+    data->map->into_map = 1;
     mapa = data->map;
     get_len_wei_map(mapa, i);
     return (fill_second_map(mapa, i) - 1);
@@ -372,6 +377,115 @@ void    fill_description(t_data *data)
             return(ft_print_fd(2, "tatcheki had errorn"), exit(16));
         i++;
     }
+    if (data->map->into_map == 0)
+        return (ft_print_fd(2, "no map my friend\n"), exit(94));
+}
+
+void    place_data_2(t_data *data, int i, int j, char c)
+{
+        data->player->i_p = i;
+        data->player->j_p = j;
+        data->player->c_p = c;
+}
+
+void    place_data(t_data *data, int i, int j)
+{
+    char c;
+
+    c = data->map->map2[i][j];
+    if (c == '0' || c == '1' || c == ' ')
+        return ;
+    else if (c == 'N' && (!data->player->c_p))
+        place_data_2(data, i, j, 'N');
+    else if (c == 'S' && (!data->player->c_p))
+        place_data_2(data, i, j, 'S');
+    else if (c == 'E' && (!data->player->c_p))
+        place_data_2(data, i, j, 'E');
+    else if (c == 'W' && (!data->player->c_p))
+        place_data_2(data, i, j, 'W');
+    else
+        return (ft_print_fd(2, "duplicate ressources \n"), exit(51));
+}
+
+void    count_get_ressources(t_data *data)
+{
+    int i;
+    int j;
+
+    i = 0;
+    while (data->map->map2[i])
+    {
+        j = 0;
+        while (data->map->map2[i][j])
+        {
+            if (!check_is_side(data->map->map2, i, j))
+            
+            if(data->map->map2[i][j] != '1' && data->map->map2[i][j + 1])
+            if (ft_strchr("01NSEW ",data->map->map2[i][j]))
+                place_data(data, i, j);
+            else
+                return (ft_print_fd(2, "wrong data on the matrix\n"), exit(68));
+            j++;
+        }
+        i++;
+    }
+    if (!(data->player->c_p))
+        return (ft_print_fd(2, "no starting player point\n"), exit(84));
+}
+/*char replace_space(int i, int j, char **str)
+{
+    while (str[i][j])
+    {
+        if (str[i - 1][j] && str[i ])
+    }   
+}*/
+
+/*void    build_up_the_rest(t_data *data)
+{
+    int i;
+    int j;
+
+    i = 0;
+    while (data->map->map2[i])
+    {
+        j = 0;
+        while (data->map->map2[i][j])
+        {
+            if (data->map->map2[i][j] == ' ')
+                data->map->map2[i][j] = replace_space(i, j, data->map->map2);
+            j++;
+        }
+        i++;
+    }
+}*/
+
+// void    check_sides(t_data *data)
+// {
+//     int j;
+
+//     j = -1;
+//     while (data->map->map2[0][++j])
+//         if (data->map->map2[0][j] != '1')
+//             return (ft_print_fd(2 ,"recheck your map sides"), exit(70));
+//     j = -1;
+//     while (data->map->map2[data->map->longer_line][++j])
+//         if (data->map->map2[data->map->longer_line][j] != '1')
+//             return (ft_print_fd(2 ,"recheck your map sides"), exit(70));
+//     j = -1;
+//       while (data->map->map2[++j][0])
+//         if (data->map->map2[j][0] != '1')
+//             return (ft_print_fd(2 ,"recheck your map sides"), exit(70));
+//     j = -1;
+//       while (data->map->map2[++j][data->map->line_nbr])
+//         if (data->map->map2[j][data->map->line_nbr] != '1')
+//             return (ft_print_fd(2 ,"recheck your map sides"), exit(70));
+// }
+
+void    parsing_tab_two(t_data *data)
+{
+    count_get_ressources(data);
+    //build_up_the_rest(data);
+    check_sides(data);
 }
 
 void    ft_get_description(t_data *data, char *str)

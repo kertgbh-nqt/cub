@@ -6,7 +6,7 @@
 /*   By: mel-garr <mel-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 02:33:16 by mel-garr          #+#    #+#             */
-/*   Updated: 2023/07/08 22:17:36 by mel-garr         ###   ########.fr       */
+/*   Updated: 2023/07/09 21:47:51 by mel-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void    ft_check_name(char *str)
 {
     int len;
     int fd;
+    int red;
     char buff[1];
 
     len = ft_strlen(str) - 1;
@@ -29,7 +30,10 @@ void    ft_check_name(char *str)
     fd = open(str, O_RDONLY);
     if (fd == -1)
         return (ft_print_fd(2, "can't open/find your .cub map\n"), (void)close(fd), exit(5));
-    if (read(fd, buff, 1) == -1)
+    red = read(fd, buff, 1);
+    if (red == -1)
         return (ft_print_fd(2, "your file is a directory ? \n"), (void)close(fd), exit(6));
+    if (red == 0)
+        return (ft_print_fd(2, "empty file\n"), (void)close(fd), exit(63));
     close (fd);
 }

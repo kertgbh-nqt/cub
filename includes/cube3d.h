@@ -6,7 +6,7 @@
 /*   By: mel-garr <mel-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 02:22:32 by mel-garr          #+#    #+#             */
-/*   Updated: 2023/07/09 18:01:48 by mel-garr         ###   ########.fr       */
+/*   Updated: 2023/07/09 21:41:11 by mel-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,12 @@
     int G;
     int B;
 }t_RGB;*/
+typedef struct s_player
+{
+    int i_p;
+    int j_p;
+    char c_p;
+}t_player;
 
 typedef struct s_mapp
 {
@@ -44,12 +50,14 @@ typedef struct s_mapp
     unsigned long C_rgb;
     int longer_line;
     int line_nbr;
+    int into_map;
 }t_mapp;
 
 typedef struct s_data
 {
     char *str;
     t_mapp *map;
+    t_player *player;
 }t_data;
 
 
