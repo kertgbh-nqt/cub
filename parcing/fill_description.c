@@ -6,7 +6,7 @@
 /*   By: mel-garr <mel-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 01:19:52 by mel-garr          #+#    #+#             */
-/*   Updated: 2023/07/10 02:00:45 by mel-garr         ###   ########.fr       */
+/*   Updated: 2023/07/10 02:08:00 by mel-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,4 +107,7 @@ void	fill_description(t_data *data)
 	}
 	if (data->map->into_map == 0)
 		return (ft_print_fd(2, "no map my friend\n"), exit(94));
+	if (!data->map->no_str || !data->map->ea_str || !data->map->we_str
+		|| !data->map->so_str)
+		return (ft_print_fd(2, "not enough ressources\n"), exit(93));
 }
