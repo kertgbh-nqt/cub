@@ -6,7 +6,7 @@
 /*   By: mel-garr <mel-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 02:23:30 by mel-garr          #+#    #+#             */
-/*   Updated: 2023/07/15 02:56:24 by mel-garr         ###   ########.fr       */
+/*   Updated: 2023/07/15 04:49:41 by mel-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ void	init_player(t_player *player)
 {
 	player->i_p = -1;
 	player->j_p = -1;
-	player->c_p = '\0'; //dyalach ?
-	player->radius = 3;
+	player->c_p = '\0'; //itijah
+	player->radius = 10;
 	player->TurnDirection = 0;
 	player->WalkDirection = 0;
 	player->RotationAngle = M_PI / 2;
