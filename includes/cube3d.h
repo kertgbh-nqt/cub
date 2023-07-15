@@ -6,7 +6,7 @@
 /*   By: mel-garr <mel-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 02:22:32 by mel-garr          #+#    #+#             */
-/*   Updated: 2023/07/10 02:01:06 by mel-garr         ###   ########.fr       */
+/*   Updated: 2023/07/15 01:20:50 by mel-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <mlx.h>
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
 # endif
@@ -27,7 +28,19 @@ typedef struct s_player
 	int				i_p;
 	int				j_p;
 	char			c_p;
+	//vid
+	float radius; //size of player 3/4 pxl
+	int TurnDirection; // -1 / +1 left / right 
+	int WalkDirection; // -1 if back +1 if front
+	float RotationAngle ;
+	float MoveSpeed ;
+	float RotationSpeed;
+	
 }					t_player;
+
+# define BG "background.xpm"
+# define WL "wall.xpm"
+# define PL "up.xpm"
 
 typedef struct s_mapp
 {
@@ -45,11 +58,22 @@ typedef struct s_mapp
 	int				into_map;
 }					t_mapp;
 
+typedef struct s_lib
+{
+	void	*mlx;
+	void	*win;
+	void	*img1;
+	void	*img0;
+	void	*imgp;
+	
+}				t_lib;
+
 typedef struct s_data
 {
 	char			*str;
 	t_mapp			*map;
 	t_player		*player;
+	t_lib			*libix;
 }					t_data;
 
 // check_map
@@ -77,6 +101,11 @@ char				*ft_strchr(char *s, int c);
 int					is_in_wrong_place(int i, int j, char **str);
 int					norm(char *str, int i, char c);
 
+
+//graphic part
+void    part_graphic(t_data *data);
+
+
 // get_next_line
 char				*gnl_stock(char *str);
 char				*gnl_ret(char *str);
@@ -89,3 +118,4 @@ char				*gnl_join(char *s1, char *s2);
 void				*coli(int count, int size);
 
 #endif
+//zid partyia n9ess empty lane felekher

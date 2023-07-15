@@ -6,7 +6,7 @@
 /*   By: mel-garr <mel-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 01:36:49 by mel-garr          #+#    #+#             */
-/*   Updated: 2023/07/10 02:05:56 by mel-garr         ###   ########.fr       */
+/*   Updated: 2023/07/15 03:05:09 by mel-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,12 @@ int	fill_second_map(t_mapp *map, int i)
 		j++;
 	}
 	map->map2[j] = 0;
-	/*j = 0;
+	j = 0;
 	while (map->map2[j])
 	{
 		printf("%s\n", map->map2[j]);
 		j++;
-	}*/
+	}
 	return (i);
 }
 

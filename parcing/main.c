@@ -6,7 +6,7 @@
 /*   By: mel-garr <mel-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 02:23:30 by mel-garr          #+#    #+#             */
-/*   Updated: 2023/07/10 01:53:44 by mel-garr         ###   ########.fr       */
+/*   Updated: 2023/07/15 02:56:24 by mel-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,19 @@ void	init_player(t_player *player)
 {
 	player->i_p = -1;
 	player->j_p = -1;
-	player->c_p = '\0';
+	player->c_p = '\0'; //dyalach ?
+	player->radius = 3;
+	player->TurnDirection = 0;
+	player->WalkDirection = 0;
+	player->RotationAngle = M_PI / 2;
+	player->MoveSpeed = 2.0;
+	player->RotationSpeed = 2 * (M_PI / 180); 
 }
+
+//void	init_libx(t_lib *libix)
+//{
+//
+//}
 
 void	init_struct(t_data **data)
 {
@@ -43,23 +54,26 @@ void	init_struct(t_data **data)
 	(*data)->player = malloc(sizeof(t_player));
 	init_map((*data)->map);
 	init_player((*data)->player);
+	(*data)->libix = malloc(sizeof(t_lib));
+	//init_libx((*data)->libix);
 }
 
-void	part_parcing(char *str)
+void	part_parcing(t_data *data, char *str)
 {
-	t_data	*data;
-
-	data = NULL;
-	init_struct(&data);
 	ft_check_name(str);
-	ft_get_description(data, str);
+	ft_get_description(data, str);	
 }
 
 int	main(int ac, char **av)
 {
 	if (ac == 2)
 	{
-		part_parcing(av[1]);
+		t_data	*data;
+
+		data = NULL;
+		init_struct(&data);
+		part_parcing(data, av[1]);
+		part_graphic(data);
 	}
 	else
 		return (ft_print_fd(2, "2 much args\n"), 2);
