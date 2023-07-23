@@ -6,7 +6,7 @@
 /*   By: mel-garr <mel-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 02:22:32 by mel-garr          #+#    #+#             */
-/*   Updated: 2023/07/15 01:20:50 by mel-garr         ###   ########.fr       */
+/*   Updated: 2023/07/20 03:40:56 by mel-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,24 +23,67 @@
 #  define BUFFER_SIZE 42
 # endif
 
+# ifndef TILE_SIZE 
+#  define TILE_SIZE 32
+# endif
+
+# ifndef RADIUS
+# define RADIUS 3
+# endif
+
 typedef struct s_player
 {
-	int				i_p;
-	int				j_p;
-	char			c_p;
-	//vid
-	float radius; //size of player 3/4 pxl
-	int TurnDirection; // -1 / +1 left / right 
-	int WalkDirection; // -1 if back +1 if front
-	float RotationAngle ;
-	float MoveSpeed ;
+	double i_p;
+	double j_p;
+	float  a_p;
+	char c_p;
+ 	double TurnDirection;
+	double WalkDirection;
+	double MoveSpeed;
 	float RotationSpeed;
+	float RotationAngle;
 	
-}					t_player;
+	int walk_direction_x;
+ 	int walk_direction_y;
+}t_player;
+
+// typedef struct s_player
+// {
+// 	int				i_p;
+// 	int				j_p;
+// 	char			c_p;
+// 	//vid
+// 	float radius; //size of player 3/4 pxl dyal dwara li rado ncreer
+// 	int init_view;
+// 	int TurnDirection; // -1 / +1 left / right an3awed nchofuha
+// 	int WalkDirection; // -1 if back +1 if front // smae
+// 	float RotationAngle ;
+// 	float MoveSpeed ;
+// 	float RotationSpeed;
+// 	//zid rewen
+// 	int walk_direction_x;
+// 	int walk_direction_y;
+	
+// }					t_player;
+
+//w 13 d 2 s 1 a 0
 
 # define BG "background.xpm"
 # define WL "wall.xpm"
 # define PL "up.xpm"
+
+# define GREY 0x808080
+# define RED 0xA52A2A
+# define BLUE 0x0000FF
+
+
+# define m_init data->libix->init
+# define m_win data->libix->win
+# define LLine data->map->longer_line
+# define Lnum data->map->line_nbr
+# define P_I  data->player->i_p 
+# define P_J data->player->j_p 
+# define M_S data->player->MoveSpeed
 
 typedef struct s_mapp
 {
@@ -60,7 +103,7 @@ typedef struct s_mapp
 
 typedef struct s_lib
 {
-	void	*mlx;
+	void	*init;
 	void	*win;
 	void	*img1;
 	void	*img0;
