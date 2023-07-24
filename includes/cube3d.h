@@ -6,7 +6,7 @@
 /*   By: mel-garr <mel-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 02:22:32 by mel-garr          #+#    #+#             */
-/*   Updated: 2023/07/20 03:40:56 by mel-garr         ###   ########.fr       */
+/*   Updated: 2023/07/24 04:41:02 by mel-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # endif
 
 # ifndef TILE_SIZE 
-#  define TILE_SIZE 32
+#  define TILE_SIZE 64
 # endif
 
 # ifndef RADIUS
@@ -33,8 +33,8 @@
 
 typedef struct s_player
 {
-	double i_p;
-	double j_p;
+	float i_p;
+	float j_p;
 	float  a_p;
 	char c_p;
  	double TurnDirection;
@@ -68,6 +68,14 @@ typedef struct s_player
 
 //w 13 d 2 s 1 a 0
 
+# define UP 13
+# define DOWN 1
+# define LEFT 2
+# define RIGHT 0
+
+# define TR 123
+# define TL 124
+
 # define BG "background.xpm"
 # define WL "wall.xpm"
 # define PL "up.xpm"
@@ -83,7 +91,27 @@ typedef struct s_player
 # define Lnum data->map->line_nbr
 # define P_I  data->player->i_p 
 # define P_J data->player->j_p 
+# define P_P data->player->a_p
 # define M_S data->player->MoveSpeed
+# define MAP_P data->map->map2
+# define T_D data->player->TurnDirection
+
+typedef struct s_p
+{
+	void *init;
+	void *win;
+	char **map;
+	int WW;
+	int WH;
+	int PLAYER_X;
+	int PLAYER_Y;
+	float FOV_angle;
+	int TurnDirection;
+	int WalkDirection;
+	float WalkSpeed;
+	float TurnSpeed;
+	float RotationAngle;
+}					t_p;
 
 typedef struct s_mapp
 {

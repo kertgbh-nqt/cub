@@ -6,7 +6,7 @@
 /*   By: mel-garr <mel-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 03:16:13 by mel-garr          #+#    #+#             */
-/*   Updated: 2023/07/20 18:53:05 by mel-garr         ###   ########.fr       */
+/*   Updated: 2023/07/24 04:02:17 by mel-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,34 +14,19 @@
 
 void	place_data_2(t_data *data, int i, int j, char c)
 {
-	data->player->i_p = i;
-	data->player->j_p = j;
+	data->player->i_p = (i * TILE_SIZE) + (TILE_SIZE / 2);
+	data->player->j_p = (j * TILE_SIZE) + (TILE_SIZE / 2);
 	data->player->c_p = c;
 	if (c == 'N')
-	{
-		data->player->a_p = 270;
-        data->player->walk_direction_x = (P_I * TILE_SIZE) + TILE_SIZE / 2;
-        data->player->walk_direction_y = (P_J * TILE_SIZE) - TILE_SIZE + TILE_SIZE / 2;
-    }
+		data->player->a_p = 3 * M_PI / 2;
 	else if (c == 'S')
-	{
-		data->player->a_p = 90;
-        data->player->walk_direction_x = (P_I * TILE_SIZE) + TILE_SIZE / 2;
-        data->player->walk_direction_y = (P_J * TILE_SIZE) + TILE_SIZE + TILE_SIZE / 2;
-    }		
+		data->player->a_p = 90 * (M_PI / 180);
 	else if (c == 'E')
-	{
-		data->player->a_p = 180;
-        data->player->walk_direction_x= (P_I * TILE_SIZE) + TILE_SIZE + TILE_SIZE / 2;
-        data->player->walk_direction_y = (P_J * TILE_SIZE) + TILE_SIZE / 2;
-    }
+		data->player->a_p = 180* (M_PI / 180);
 	else
-		{
-		data->player->a_p = 0;
-        data->player->walk_direction_x = (P_I * TILE_SIZE) - TILE_SIZE + TILE_SIZE / 2;
-        data->player->walk_direction_y = (P_J * TILE_SIZE) + TILE_SIZE / 2;
-		}
+		data->player->a_p = 360 * (M_PI / 180);
 }
+
 
 void	place_data(t_data *data, int i, int j)
 {
